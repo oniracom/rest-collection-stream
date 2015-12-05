@@ -79,8 +79,8 @@ var restCollection = function (url, o) {
 
   // setup headers - only JSON is supported
   options.headers = options.headers || {};
-  options.headers.Accept = 'application/json';
-  options.headers['Accept-Encoding'] = 'gzip, deflate';
+  //options.headers.Accept = 'application/json';
+  //options.headers['Accept-Encoding'] = 'gzip, deflate';
 
   return es.readable(function (count, callback) {
     // nowhere to go next, end the stream
@@ -146,14 +146,14 @@ function requestWithEncoding(options, callback) {
       var encoding = res.headers['content-encoding'];
       if (encoding === 'gzip') {
         zlib.gunzip(buffer, function (err, decoded) {
-          callback(err, res, decoded && JSON.parse(decoded.toString()));
+          callback(err, res, decoded /*&& JSON.parse(decoded.toString())*/);
         });
       } else if (encoding === 'deflate') {
         zlib.inflate(buffer, function (err, decoded) {
-          callback(err, res, decoded && JSON.parse(decoded.toString()));
+          callback(err, res, decoded /*&& JSON.parse(decoded.toString())*/);
         });
       } else {
-        callback(null, res, JSON.parse(buffer.toString()));
+        callback(null, res, /*JSON.parse(*/buffer.toString()/*)*/);
       }
     });
   });
